@@ -338,6 +338,30 @@ footer{margin-top:40px;padding-block:28px 120px;border-top:1px solid var(--line)
 .pl-dot.cur{box-shadow:0 0 0 4px rgba(255,115,120,.45)}
 @media (max-width:700px){.pl-info{display:none}.pl-btn{width:36px;height:36px}.pl-track{margin-inline:6px}}
 
+/* ---------- Júri Itinerante ---------- */
+.sec.deep{background:var(--navy2);color:#fff;
+  margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sec.deep .card{color:var(--ink)}
+.sec.deep .card.navy{color:var(--on-navy)}
+.sec.deep .eyebrow{color:var(--accent-on-navy)}
+.sec.deep .sec-head{margin-bottom:20px}
+.sec.deep .lead{font-size:clamp(18px,1.9vw,22px);color:var(--on-navy-muted);max-width:46em;margin-bottom:clamp(28px,4vw,44px)}
+.sec.deep .tab{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+.sec.deep .tab:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.1)}
+.sec.deep .tab[aria-selected="true"]{background:#fff;color:var(--navy2);border-color:#fff}
+.sec.deep .chip{border-color:rgba(255,255,255,.4);color:#fff}
+.ipanel{margin-top:26px;animation:swap .5s cubic-bezier(.2,.8,.2,1);display:grid;gap:22px}
+.ipanel[hidden]{display:none}
+.grid.four{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.grid.metas{margin-top:2px}
+.ilead{font-family:var(--f-display);font-weight:700;font-size:clamp(19px,2.2vw,24px);max-width:36em;line-height:1.3}
+.motto{font-family:var(--f-display);font-weight:800;font-size:clamp(22px,3vw,34px);line-height:1.15;max-width:22em;color:#fff}
+.motto::before{content:"";display:block;width:64px;height:5px;background:var(--red);margin-bottom:14px}
+.note{max-width:62ch;color:var(--on-navy-muted);font-size:18px;border-left:4px solid var(--red);padding-left:16px}
+.meta-n{display:block;font-family:var(--f-display);font-weight:800;font-size:clamp(52px,6.4vw,76px);line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.phone-line{color:var(--ink)!important;font-weight:600}
+
 /* reveal */
 html.js .rv{opacity:.2;transform:translateY(34px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--d,0) * 90ms)}
 html.js .rv.in{opacity:1;transform:none}
@@ -493,7 +517,83 @@ html.js .card.rv.in:hover{transform:translateY(-5px);transition-delay:0s;transit
         <div class="chips"><span class="chip">Facções e organizações criminosas</span><span class="chip">Alta repercussão</span><span class="chip">Vários acusados</span><span class="chip">Risco ao membro</span><span class="chip">Elevada complexidade</span></div>
       </article>
     </div>
+    <a class="callout svc rv" href="#itinerante">
+      <span>Quando o apoio precisa ser presencial, em plenário, existe o Júri Itinerante.</span>
+      <span class="svc-go">Conhecer o projeto <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
     <p class="callout rv">O apoio deve ser buscado com antecedência, especialmente quando houver necessidade de mobilização institucional.</p>
+  </div>
+</section>
+
+<!-- JÚRI ITINERANTE (dentro do apoio operacional) -->
+<section class="sec deep" id="itinerante" data-g="operacional">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <p class="eyebrow">Projeto institucional · Apoio operacional</p>
+        <h2>Júri Itinerante: apoio presencial em plenário</h2>
+      </div>
+    </div>
+    <p class="lead rv">É o braço tático-operacional do CAOJÚRI: o Coordenador e a equipe prestam apoio presencial aos Promotores de Justiça naturais em sessões do Tribunal do Júri.</p>
+
+    <div class="itin rv" data-tabs>
+      <div class="tablist" role="tablist" aria-label="Júri Itinerante">
+        <button class="tab" role="tab" id="ti-projeto" aria-controls="ip-projeto" aria-selected="true">O projeto</button>
+        <button class="tab" role="tab" id="ti-quando" aria-controls="ip-quando" aria-selected="false">Quando acionar</button>
+        <button class="tab" role="tab" id="ti-plenario" aria-controls="ip-plenario" aria-selected="false">No plenário</button>
+        <button class="tab" role="tab" id="ti-base" aria-controls="ip-base" aria-selected="false">Base e resultados</button>
+      </div>
+
+      <div class="ipanel" role="tabpanel" id="ip-projeto" aria-labelledby="ti-projeto">
+        <div class="grid four">
+          <article class="card"><span class="n">1</span><h3>Plenário</h3><p>Atuação direta em Plenário junto ao Promotor natural.</p></article>
+          <article class="card"><span class="n">2</span><h3>Casos emblemáticos</h3><p>Foco em casos complexos e emblemáticos do Tribunal do Júri.</p></article>
+          <article class="card"><span class="n">3</span><h3>Suporte imediato</h3><p>Suporte estratégico e operacional imediato em sessão.</p></article>
+          <article class="card navy"><span class="n">4</span><h3>Segurança jurídica</h3><p>Preservação da segurança jurídica e combate à impunidade.</p></article>
+        </div>
+        <div class="chips"><span class="chip">Integração com o GAPJÚRI</span><span class="chip">Triagem de pautas críticas com tecnologia</span><span class="chip">Fortalecimento da imagem institucional</span></div>
+        <p class="motto">O membro atua, o CAOJÚRI apoia, a justiça prevalece.</p>
+      </div>
+
+      <div class="ipanel" role="tabpanel" id="ip-quando" aria-labelledby="ti-quando" hidden>
+        <p class="ilead">Muitas Promotorias se deparam com júris de altíssima complexidade jurídica e fática, com risco institucional alto.</p>
+        <div class="grid four">
+          <article class="card"><span class="n">1</span><h3>Crime organizado</h3><p>Alta periculosidade.</p></article>
+          <article class="card"><span class="n">2</span><h3>Poder econômico ou político</h3><p>Réus com grande poder econômico ou político.</p></article>
+          <article class="card"><span class="n">3</span><h3>Clamor público</h3><p>Forte pressão local sobre o caso.</p></article>
+          <article class="card navy"><span class="n">4</span><h3>Repercussão midiática</h3><p>Cenários de repercussão extrema.</p></article>
+        </div>
+        <p class="note">No interior, o Promotor natural pode enfrentar solidão técnica diante de defesas robustas. O apoio presencial reduz o isolamento geográfico e leva uma retaguarda à altura do desafio, saindo de São Luís até a comarca.</p>
+      </div>
+
+      <div class="ipanel" role="tabpanel" id="ip-plenario" aria-labelledby="ti-plenario" hidden>
+        <p class="ilead">Três frentes de atuação no suporte em plenário.</p>
+        <div class="grid">
+          <article class="card"><span class="n">1</span><h3>Quesitação</h3><p>Minutas de quesitos personalizadas para casos atípicos.</p></article>
+          <article class="card"><span class="n">2</span><h3>Análise</h3><p>Revisão exaustiva dos autos para identificar brechas defensivas.</p></article>
+          <article class="card navy"><span class="n">3</span><h3>Atuação</h3><p>Intervenção direta e estratégica durante os debates.</p></article>
+        </div>
+      </div>
+
+      <div class="ipanel" role="tabpanel" id="ip-base" aria-labelledby="ti-base" hidden>
+        <div class="grid">
+          <article class="card"><h3>Marco legal</h3><p>Ato Regulamentar nº 33/2022, art. 1º, inciso X: cabe aos CAOs acompanhar ou auxiliar os projetos institucionais e interinstitucionais da sua área de atuação. O Júri Itinerante concretiza esse dever de auxílio técnico à atividade funcional.</p></article>
+          <article class="card"><h3>Alinhamento estratégico</h3><p>PEI MPMA 2021–2029: aprimorar a efetividade da persecução penal, assegurando os direitos das vítimas. ODS 16 da ONU: sociedades pacíficas e acesso à justiça para todos.</p></article>
+          <article class="card navy"><h3>Produtos</h3><p>Júris apoiados em todo o Maranhão, Caderno Tático (roteiros de acusação e quesitos complexos) e Banco de Lições, com as teses vitoriosas compartilhadas.</p></article>
+        </div>
+        <div class="grid metas">
+          <article class="card"><span class="meta-n"><span data-count="80">80</span>%</span><p>Meta de acolhimento das teses ministeriais nos casos apoiados.</p></article>
+          <article class="card"><span class="meta-n"><span data-count="85">85</span>%</span><p>Meta de membros atendidos que avaliam o apoio como Ótimo ou Bom.</p></article>
+          <article class="card"><span class="meta-n"><span data-count="0">0</span></span><p>Meta de nulidades: nenhuma anulação de júri por falha técnica da acusação.</p></article>
+        </div>
+        <p class="note">Os desafios do projeto são a logística, com deslocamento célere até comarcas distantes, e a agenda, para conciliar pautas externas com a rotina do Centro. Por isso, o pedido de apoio deve chegar com antecedência.</p>
+      </div>
+    </div>
+
+    <a class="callout svc rv" href="#contato">
+      <span>Há hipótese de apoio presencial em uma sessão do Júri? Procure o CAOJÚRI com antecedência.</span>
+      <span class="svc-go">Ver contatos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
   </div>
 </section>
 
@@ -696,6 +796,7 @@ html.js .card.rv.in:hover{transform:translateY(-5px);transition-delay:0s;transit
       <article class="card rv" style="--d:1">
         <h3>Endereço</h3>
         <p>Rua Oswaldo Cruz, n.º 1396, Centro · CEP 65.020-910 · São Luís/MA</p>
+        <p class="phone-line">Telefone: (98) 3219-1980, ramal 75</p>
       </article>
       <article class="card qr rv" style="--d:2">
         <h3>WhatsApp</h3>
@@ -804,13 +905,22 @@ html.js .card.rv.in:hover{transform:translateY(-5px);transition-delay:0s;transit
     });
   });
 
-  /* abas (temas e ferramentas) */
+  /* contadores das metas, animados quando a aba abre */
+  function countUp(p){
+    [].forEach.call(p.querySelectorAll('[data-count]'),function(el){
+      var t=parseInt(el.getAttribute('data-count'),10);
+      if(reduce||!t){el.textContent=t;return}
+      var s=performance.now();
+      (function f(n){var k=Math.min(1,(n-s)/1400); el.textContent=Math.round(t*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(f)})(s);
+    });
+  }
+  /* abas (temas, ferramentas e Júri Itinerante) */
   [].forEach.call(document.querySelectorAll('[data-tabs]'),function(box){
     var tabs=[].slice.call(box.querySelectorAll('[role=tab]')), hover=box.hasAttribute('data-hover');
     function pick(i,focus){
       tabs.forEach(function(t,k){
         var on=k===i, p=document.getElementById(t.getAttribute('aria-controls'));
-        t.setAttribute('aria-selected',on); t.tabIndex=on?0:-1; if(p) p.hidden=!on;
+        t.setAttribute('aria-selected',on); t.tabIndex=on?0:-1; if(p){ p.hidden=!on; if(on) countUp(p); }
       });
       if(focus) tabs[i].focus();
     }
