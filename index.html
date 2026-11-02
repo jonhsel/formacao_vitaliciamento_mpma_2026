@@ -374,6 +374,317 @@ html.js .card.rv.in:hover{transform:translateY(-5px);transition-delay:0s;transit
 }
 </style>
 
+
+<!-- ABERTURA: Tribunal do Júri -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Cinzel:wght@600;800&display=swap">
+<style>
+html.intro-on .in-up,html.intro-on .hero .eyebrow::after{animation-play-state:paused}
+html.intro-on,html.intro-on body{overflow:hidden}
+#intro{display:none;position:fixed;inset:0;z-index:1000;overflow:hidden;
+  --j-night:#04050a;--j-brass:#c9a24b;--j-brass-hi:#f3dc9a;--j-ivory:#f4ead2;
+  --j-display:"Cinzel","Trajan Pro","Times New Roman",serif;--j-ui:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --t0:.8s;--step:1.9s;--lights:10.4s;
+  background:var(--j-night);color:var(--j-ivory);font-family:var(--j-ui);font-size:16px;line-height:1.2;color-scheme:dark;
+  transition:opacity .9s ease}
+#intro.show{display:block}
+#intro.out{opacity:0;pointer-events:none}
+#intro *{box-sizing:border-box}
+#intro .stage{position:relative;height:100%;display:grid;place-items:center;container-type:size;overflow:hidden;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#intro .frame{position:relative;width:min(100%,177.78svh);width:min(100cqw,177.78cqh);aspect-ratio:16/9;container-type:inline-size;background:var(--j-night)}
+#intro .scene{position:absolute;inset:0;overflow:hidden}
+#intro .art{display:block;width:100%;height:100%;transform-origin:50% 56%}
+#intro .pb{fill:var(--body,#222)} #intro .pk{fill:var(--skin,#a8744f)} #intro .ph{fill:var(--hair,#1b1410)}
+#intro .dark,#intro .hole,#intro .cap,#intro .beam,#intro .lamp-spot{opacity:0}
+#intro .beam,#intro .lit{mix-blend-mode:screen}
+#intro .lit{opacity:1}
+#intro .mote{fill:#fff2cf;opacity:0;animation:jr-drift var(--d,7s) ease-in-out infinite alternate var(--dl,0s)}
+#intro .cap{position:absolute;left:var(--x);top:80.5%;transform:translateX(-50%);text-align:center;white-space:nowrap;pointer-events:none}
+#intro .cap b{display:block;font-weight:600;font-size:max(10px,1.6cqw);line-height:1;letter-spacing:.34em;padding-left:.34em;text-transform:uppercase;color:var(--j-ivory)}
+#intro .cap small{display:block;margin-top:.55cqw;font-weight:500;font-size:max(8px,1.05cqw);line-height:1;letter-spacing:.24em;padding-left:.24em;text-transform:uppercase;color:var(--j-brass)}
+#intro .scrim{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 54% 21% at 50% 31%,rgba(3,4,9,.74),rgba(3,4,9,.36) 55%,rgba(3,4,9,0) 82%)}
+#intro .ttlbox{position:absolute;left:0;right:0;top:23.5%;text-align:center;padding-inline:4cqw}
+#intro .ttlglow{filter:drop-shadow(0 .3cqw .5cqw rgba(0,0,0,.7)) drop-shadow(0 0 2.2cqw rgba(235,190,100,.3))}
+#intro .ttl{margin:0;display:inline-block;font-family:var(--j-display);font-weight:800;font-size:6.1cqw;line-height:1;letter-spacing:.14em;padding-left:.14em;text-transform:uppercase;text-wrap:balance;
+  background:linear-gradient(100deg,#8a6824 0%,#e8cb7e 20%,#fff3c8 34%,#c9a24b 50%,#8a6824 68%,#f0d58a 85%,#a37f33 100%);background-size:230% 100%;background-position:0 0;
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+#intro .rule{display:flex;align-items:center;justify-content:center;gap:1.2cqw;width:34cqw;margin:1.5cqw auto 0}
+#intro .rule::before{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--j-brass))}
+#intro .rule::after{content:"";flex:1;height:1px;background:linear-gradient(270deg,transparent,var(--j-brass))}
+#intro .rule i{flex:none;width:.7cqw;height:.7cqw;min-width:5px;min-height:5px;background:var(--j-brass-hi);transform:rotate(45deg)}
+#intro .sub{margin:1cqw 0 0;font-weight:500;font-size:max(10px,1.45cqw);letter-spacing:.42em;padding-left:.42em;text-transform:uppercase;color:var(--j-brass-hi)}
+#intro .ctls{position:absolute;z-index:5;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+#intro .ctl{font:500 14px/1 var(--j-ui);letter-spacing:.2em;text-transform:uppercase;color:var(--j-brass-hi);background:rgba(4,5,10,.6);border:1px solid rgba(201,162,75,.55);border-radius:2px;padding:10px 14px;cursor:pointer}
+#intro .ctl:hover{background:rgba(201,162,75,.16)}
+#intro .ctl:focus-visible{outline:2px solid var(--j-brass-hi);outline-offset:3px}
+#intro .ctl.go{background:var(--j-brass);color:#1a1006;border-color:var(--j-brass-hi);font-weight:600;animation:jr-pulse 2.2s ease-out infinite}
+#intro .ctl.go:hover{background:var(--j-brass-hi)}
+@media (max-aspect-ratio:1/1){
+  #intro .ttlbox{top:calc(100% + 7cqw)}
+  #intro .ttl{font-size:11cqw}
+  #intro .scrim{display:none}
+  #intro .rule{width:60cqw;margin-top:3cqw}
+  #intro .sub{font-size:max(11px,2.8cqw);margin-top:2.4cqw;letter-spacing:.3em;padding-left:.3em}
+}
+#intro .play .art{animation:jr-push 14s ease-out both}
+#intro .play .hole,#intro .play .beam,#intro .play .lamp-spot{animation:jr-spot 2.5s ease-in-out both;animation-delay:calc(var(--i) * var(--step) + var(--t0))}
+#intro .play .cap{animation:jr-cap 2.5s ease-in-out both;animation-delay:calc(var(--i) * var(--step) + var(--t0))}
+#intro .play .dark{animation:jr-lights-up 2.4s ease-in-out var(--lights) both}
+#intro .play .lit{animation:jr-lit-on 2.4s ease-in-out var(--lights) both}
+#intro .play .scrim{animation:jr-fade 2s ease-out calc(var(--lights) + .6s) both}
+#intro .play .ttl{animation:jr-title-in 2.3s cubic-bezier(.2,.7,.2,1) calc(var(--lights) + 1.4s) both,jr-sweep 3.6s ease-in-out calc(var(--lights) + 3s) both}
+#intro .play .rule{animation:jr-grow 1.4s ease-out calc(var(--lights) + 2.3s) both}
+#intro .play .sub{animation:jr-rise 1.4s ease-out calc(var(--lights) + 2.7s) both}
+@keyframes jr-push{from{transform:scale(1)}to{transform:scale(1.04)}}
+@keyframes jr-spot{0%{opacity:0}20%{opacity:1}76%{opacity:1}100%{opacity:0}}
+@keyframes jr-cap{0%{opacity:0;transform:translate(-50%,.8cqw)}20%{opacity:1;transform:translate(-50%,0)}76%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-.4cqw)}}
+@keyframes jr-lights-up{0%{opacity:.93}6%{opacity:.55}11%{opacity:.88}18%{opacity:.3}24%{opacity:.6}100%{opacity:0}}
+@keyframes jr-lit-on{0%{opacity:0}6%{opacity:.5}11%{opacity:.1}18%{opacity:.75}24%{opacity:.4}100%{opacity:1}}
+@keyframes jr-fade{from{opacity:0}to{opacity:1}}
+@keyframes jr-title-in{from{opacity:0;clip-path:inset(0 50% 0 50%);transform:scale(1.07);filter:blur(10px)}to{opacity:1;clip-path:inset(-20% -5% -20% -5%);transform:scale(1);filter:blur(0)}}
+@keyframes jr-sweep{from{background-position:100% 0}to{background-position:0 0}}
+@keyframes jr-grow{from{opacity:0;transform:scaleX(.2)}to{opacity:1;transform:none}}
+@keyframes jr-rise{from{opacity:0;transform:translateY(.8cqw)}to{opacity:1;transform:none}}
+@keyframes jr-drift{0%{transform:translate(0,0);opacity:0}30%{opacity:.85}100%{transform:translate(var(--dx),var(--dy));opacity:.15}}
+@keyframes jr-pulse{0%{box-shadow:0 0 0 0 rgba(243,220,154,.55)}70%,100%{box-shadow:0 0 0 16px rgba(243,220,154,0)}}
+@media (prefers-reduced-motion:reduce){
+  #intro,#intro *{animation:none!important;transition:none!important}
+  #intro .mote,#intro #intro-snd{display:none}
+}
+</style>
+<div id="intro" role="dialog" aria-modal="true" aria-label="Abertura: Tribunal do Júri">
+  <div class="stage">
+    <div class="frame play" id="intro-frame">
+      <div class="scene">
+        <svg class="art" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Plenário do Tribunal do Júri, iluminado por holofotes sobre os jurados, o promotor, o juiz, a defesa e o réu">
+        <defs>
+          <linearGradient id="jr-g-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2315"/><stop offset="1" stop-color="#22140c"/></linearGradient>
+          <linearGradient id="jr-g-floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d1b10"/><stop offset=".5" stop-color="#1c100a"/><stop offset="1" stop-color="#0d0705"/></linearGradient>
+          <linearGradient id="jr-g-ceil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#090604"/><stop offset="1" stop-color="#1b100a"/></linearGradient>
+          <linearGradient id="jr-g-wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a4429"/><stop offset="1" stop-color="#3e2616"/></linearGradient>
+          <linearGradient id="jr-g-woodtop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93633b"/><stop offset="1" stop-color="#5e3b22"/></linearGradient>
+          <linearGradient id="jr-g-brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a6a28"/><stop offset=".5" stop-color="#f3dc9a"/><stop offset="1" stop-color="#a47f33"/></linearGradient>
+          <linearGradient id="jr-g-beam" gradientUnits="userSpaceOnUse" x1="0" y1="86" x2="0" y2="700"><stop offset="0" stop-color="#fff3d2" stop-opacity=".75"/><stop offset=".55" stop-color="#ffe3a8" stop-opacity=".17"/><stop offset="1" stop-color="#ffd98a" stop-opacity=".08"/></linearGradient>
+          <linearGradient id="jr-g-wash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".28"/><stop offset=".7" stop-color="#ffd9a0" stop-opacity="0"/></linearGradient>
+          <radialGradient id="jr-g-hole"><stop offset="0" stop-color="#000" stop-opacity="1"/><stop offset=".55" stop-color="#000" stop-opacity=".92"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <radialGradient id="jr-g-glow"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".6"/><stop offset="1" stop-color="#ffcf80" stop-opacity="0"/></radialGradient>
+          <radialGradient id="jr-g-vig" cx=".5" cy=".5" r=".75"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".78"/></radialGradient>
+          <filter id="jr-f-soft" x="-30%" y="-5%" width="160%" height="110%"><feGaussianBlur stdDeviation="7"/></filter>
+          <pattern id="jr-p-panels" width="160" height="526" patternUnits="userSpaceOnUse" x="0" y="94">
+            <rect x="14" y="56" width="132" height="400" rx="2" fill="#472b1b" stroke="#1d110a" stroke-width="3"/>
+            <rect x="26" y="68" width="108" height="376" fill="none" stroke="#5f3c26" stroke-width="1.5"/>
+          </pattern>
+          <g id="jr-person">
+            <path class="pb" d="M-46 140 C-46 50 -32 31 0 28 C32 31 46 50 46 140 Z"/>
+            <rect class="pk" x="-7" y="12" width="14" height="20" rx="5"/>
+            <ellipse class="pk" cx="0" cy="0" rx="18.5" ry="22.5"/>
+            <path class="ph" d="M-19.5 -4 C-21 -30 21 -30 19.5 -4 C14 -17 -14 -17 -19.5 -4 Z"/>
+          </g>
+          <mask id="jr-m-dark" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="900">
+            <rect width="1600" height="900" fill="#fff"/>
+            <ellipse class="hole" style="--i:0" cx="285" cy="505" rx="255" ry="215" fill="url(#jr-g-hole)"/>
+            <ellipse class="hole" style="--i:1" cx="575" cy="525" rx="175" ry="200" fill="url(#jr-g-hole)"/>
+            <ellipse class="hole" style="--i:2" cx="800" cy="470" rx="195" ry="230" fill="url(#jr-g-hole)"/>
+            <ellipse class="hole" style="--i:3" cx="1025" cy="525" rx="175" ry="200" fill="url(#jr-g-hole)"/>
+            <ellipse class="hole" style="--i:4" cx="1340" cy="540" rx="205" ry="215" fill="url(#jr-g-hole)"/>
+          </mask>
+        </defs>
+
+        <!-- teto e cornija -->
+        <rect x="0" y="0" width="1600" height="86" fill="url(#jr-g-ceil)"/>
+        <g stroke="#2a1a10" stroke-width="2"><path d="M200 0V78M400 0V78M600 0V78M800 0V78M1000 0V78M1200 0V78M1400 0V78"/></g>
+        <rect x="0" y="78" width="1600" height="16" fill="#2e1c11"/>
+        <rect x="0" y="92" width="1600" height="2" fill="#a47f33" opacity=".6"/>
+
+        <!-- parede -->
+        <rect x="0" y="94" width="1600" height="526" fill="url(#jr-g-wall)"/>
+        <rect x="0" y="94" width="1600" height="526" fill="url(#jr-p-panels)"/>
+        <rect x="0" y="536" width="1600" height="84" fill="#26160d"/>
+        <rect x="0" y="536" width="1600" height="3" fill="#6f4a2a"/>
+
+        <!-- nicho do juiz -->
+        <path d="M560 620V268Q560 112 800 112Q1040 112 1040 268V620Z" fill="#2a0f14" stroke="url(#jr-g-brass)" stroke-width="4"/>
+        <path d="M580 620V272Q580 134 800 134Q1020 134 1020 272V620Z" fill="none" stroke="#5a1a22" stroke-width="2"/>
+        <g fill="url(#jr-g-wood)" stroke="#1a0f08" stroke-width="2">
+          <rect x="530" y="108" width="30" height="512"/><rect x="1040" y="108" width="30" height="512"/>
+        </g>
+        <g fill="url(#jr-g-brass)"><rect x="524" y="94" width="42" height="16"/><rect x="1034" y="94" width="42" height="16"/><rect x="524" y="604" width="42" height="16"/><rect x="1034" y="604" width="42" height="16"/></g>
+
+        <!-- balança da justiça -->
+        <g fill="none" stroke="url(#jr-g-brass)" stroke-width="3" stroke-linecap="round">
+          <circle cx="800" cy="170" r="38"/>
+          <path d="M800 140V204M772 156H828M772 156L760 184M772 156L784 184M828 156L816 184M828 156L840 184"/>
+          <path d="M758 184Q772 198 786 184M814 184Q828 198 842 184M788 204H812"/>
+        </g>
+
+        <!-- arandelas -->
+        <g fill="#3a2a18" stroke="#a47f33" stroke-width="1.5">
+          <path d="M186 244L214 244L209 222L191 222Z"/><path d="M426 244L454 244L449 222L431 222Z"/>
+          <path d="M1146 244L1174 244L1169 222L1151 222Z"/><path d="M1386 244L1414 244L1409 222L1391 222Z"/>
+        </g>
+        <g fill="url(#jr-g-brass)"><rect x="197" y="244" width="6" height="30"/><rect x="437" y="244" width="6" height="30"/><rect x="1157" y="244" width="6" height="30"/><rect x="1397" y="244" width="6" height="30"/></g>
+
+        <!-- luminárias do teto (corpos) -->
+        <g fill="#1a1a20" stroke="#a47f33" stroke-width="1.5">
+          <rect x="267" y="62" width="36" height="24" rx="3"/><rect x="557" y="62" width="36" height="24" rx="3"/>
+          <rect x="782" y="62" width="36" height="24" rx="3"/><rect x="1007" y="62" width="36" height="24" rx="3"/>
+          <rect x="1322" y="62" width="36" height="24" rx="3"/>
+        </g>
+
+        <!-- piso -->
+        <rect x="0" y="620" width="1600" height="280" fill="url(#jr-g-floor)"/>
+        <g stroke="#000" stroke-opacity=".38" stroke-width="2">
+          <path d="M-157 620L-400 900M-57 620L-200 900M43 620L0 900M143 620L200 900M243 620L400 900M343 620L600 900M443 620L800 900M543 620L1000 900M643 620L1200 900M743 620L1400 900M843 620L1600 900M943 620L1800 900M1043 620L2000 900"/>
+          <path d="M0 662H1600M0 712H1600M0 786H1600M0 880H1600"/>
+        </g>
+
+        <!-- estrado do juiz -->
+        <rect x="620" y="620" width="360" height="30" fill="url(#jr-g-woodtop)"/>
+        <rect x="620" y="646" width="360" height="4" fill="url(#jr-g-brass)"/>
+        <path d="M735 506V404Q735 360 800 360Q865 360 865 404V506Z" fill="#3a1218" stroke="#1a0709" stroke-width="3"/>
+        <path d="M750 500V410Q750 376 800 376Q850 376 850 410V500Z" fill="none" stroke="#5a1f27" stroke-width="2" stroke-dasharray="6 5"/>
+        <g transform="translate(800 416) scale(1.3)" style="--body:#0c0c11;--skin:#b98260;--hair:#8a8a8a">
+          <use href="#jr-person"/>
+          <path d="M-12 31L0 70L12 31Z" fill="#ece5d3"/>
+        </g>
+        <rect x="664" y="494" width="272" height="16" fill="url(#jr-g-woodtop)"/>
+        <rect x="664" y="510" width="272" height="3" fill="url(#jr-g-brass)"/>
+        <rect x="680" y="513" width="240" height="107" fill="url(#jr-g-wood)"/>
+        <g fill="#5a3a23" stroke="#2a190e" stroke-width="2"><rect x="696" y="528" width="62" height="76"/><rect x="769" y="528" width="62" height="76"/><rect x="842" y="528" width="62" height="76"/></g>
+        <g transform="translate(718 489) rotate(-16)"><rect x="-14" y="-2" width="28" height="4" fill="#7a5230"/><rect x="-19" y="-6" width="10" height="12" rx="1.5" fill="#9a6a3c"/></g>
+        <polygon points="852,494 892,494 886,486 846,486" fill="#ece5d1"/>
+
+        <!-- bancada dos jurados -->
+        <rect x="92" y="404" width="388" height="170" fill="#24150c" stroke="#120a05" stroke-width="2"/>
+        <rect x="88" y="398" width="396" height="9" fill="url(#jr-g-woodtop)"/>
+        <use href="#jr-person" transform="translate(125 438) scale(.95)" style="--body:#2c3548;--skin:#c28a64;--hair:#2a1d14"/>
+        <use href="#jr-person" transform="translate(230 438) scale(.95)" style="--body:#3a2f2a;--skin:#8d5a3b;--hair:#15110e"/>
+        <use href="#jr-person" transform="translate(335 438) scale(.95)" style="--body:#4a4f5a;--skin:#e0b28a;--hair:#6b5a48"/>
+        <use href="#jr-person" transform="translate(440 438) scale(.95)" style="--body:#2f3d34;--skin:#a9714a;--hair:#1b1410"/>
+        <rect x="92" y="486" width="388" height="80" fill="url(#jr-g-wood)" stroke="#1a0f08" stroke-width="2"/>
+        <rect x="92" y="486" width="388" height="3" fill="url(#jr-g-brass)"/>
+        <use href="#jr-person" transform="translate(178 508) scale(.95)" style="--body:#5a4a3a;--skin:#d09b73;--hair:#3a2a1c"/>
+        <use href="#jr-person" transform="translate(283 508) scale(.95)" style="--body:#333640;--skin:#7a4e32;--hair:#0f0c0a"/>
+        <use href="#jr-person" transform="translate(388 508) scale(.95)" style="--body:#3d3550;--skin:#c28a64;--hair:#8a8a8a"/>
+        <rect x="88" y="568" width="396" height="72" fill="url(#jr-g-wood)" stroke="#1a0f08" stroke-width="2"/>
+        <rect x="88" y="568" width="396" height="4" fill="url(#jr-g-brass)"/>
+        <g fill="none" stroke="#2a190e" stroke-width="2"><rect x="104" y="584" width="108" height="42"/><rect x="224" y="584" width="108" height="42"/><rect x="344" y="584" width="124" height="42"/></g>
+        <g fill="url(#jr-g-wood)" stroke="#1a0f08" stroke-width="2"><rect x="82" y="396" width="12" height="244"/><rect x="478" y="396" width="12" height="244"/></g>
+        <g fill="url(#jr-g-brass)"><circle cx="88" cy="394" r="7"/><circle cx="484" cy="394" r="7"/></g>
+
+        <!-- guarda e réu -->
+        <g transform="translate(1442 470) scale(1.05)" style="--body:#11151c;--skin:#a47452;--hair:#0f0c0a">
+          <use href="#jr-person"/>
+          <path d="M-22 -9Q0 -36 22 -9L22 -3L-22 -3Z" fill="#0b0e14"/>
+        </g>
+        <path d="M1298 600V540Q1298 524 1314 524H1346Q1362 524 1362 540V600Z" fill="#2c1a0f" stroke="#150b05" stroke-width="2"/>
+        <g transform="translate(1330 524) rotate(4)" style="--body:#d9d7cc;--skin:#8e5f3f;--hair:#1c1410"><use href="#jr-person"/></g>
+        <rect x="1240" y="596" width="250" height="80" fill="url(#jr-g-wood)" stroke="#1a0f08" stroke-width="2"/>
+        <rect x="1230" y="586" width="270" height="12" fill="url(#jr-g-woodtop)"/>
+        <g stroke="#2a190e" stroke-width="2"><path d="M1262 604V670M1290 604V670M1318 604V670M1346 604V670M1374 604V670M1402 604V670M1430 604V670M1458 604V670"/></g>
+
+        <!-- promotor e defesa -->
+        <g transform="translate(575 480) scale(1.05)" style="--body:#0b0b10;--skin:#c08d68;--hair:#2a1d14">
+          <use href="#jr-person"/><path d="M-12 31L0 64L12 31Z" fill="#ece5d3"/>
+        </g>
+        <g transform="translate(1025 482) scale(1.05)" style="--body:#0d0f14;--skin:#8a5a3b;--hair:#15110e">
+          <use href="#jr-person"/><path d="M-12 31L0 64L12 31Z" fill="#ece5d3"/>
+        </g>
+        <ellipse cx="575" cy="694" rx="150" ry="9" fill="#000" opacity=".35"/>
+        <rect x="455" y="598" width="240" height="14" rx="2" fill="url(#jr-g-woodtop)"/>
+        <rect x="455" y="611" width="240" height="2" fill="url(#jr-g-brass)"/>
+        <rect x="462" y="613" width="226" height="78" fill="url(#jr-g-wood)"/>
+        <rect x="476" y="626" width="198" height="52" fill="none" stroke="#2a190e" stroke-width="2"/>
+        <polygon points="485,598 539,598 531,589 479,589" fill="#ece5d1"/>
+        <rect x="622" y="590" width="30" height="8" rx="1" fill="#7a1f26"/>
+        <ellipse cx="1025" cy="694" rx="150" ry="9" fill="#000" opacity=".35"/>
+        <rect x="905" y="598" width="240" height="14" rx="2" fill="url(#jr-g-woodtop)"/>
+        <rect x="905" y="611" width="240" height="2" fill="url(#jr-g-brass)"/>
+        <rect x="912" y="613" width="226" height="78" fill="url(#jr-g-wood)"/>
+        <rect x="926" y="626" width="198" height="52" fill="none" stroke="#2a190e" stroke-width="2"/>
+        <polygon points="935,598 989,598 981,589 929,589" fill="#ece5d1"/>
+        <rect x="1072" y="590" width="30" height="8" rx="1" fill="#1f3b2d"/>
+
+        <!-- luzes acesas (estado final) -->
+        <g class="lit">
+          <rect width="1600" height="900" fill="url(#jr-g-wash)"/>
+          <ellipse cx="200" cy="236" rx="80" ry="130" fill="url(#jr-g-glow)"/>
+          <ellipse cx="440" cy="236" rx="80" ry="130" fill="url(#jr-g-glow)"/>
+          <ellipse cx="1160" cy="236" rx="80" ry="130" fill="url(#jr-g-glow)"/>
+          <ellipse cx="1400" cy="236" rx="80" ry="130" fill="url(#jr-g-glow)"/>
+          <ellipse cx="285" cy="76" rx="70" ry="34" fill="url(#jr-g-glow)"/>
+          <ellipse cx="575" cy="76" rx="70" ry="34" fill="url(#jr-g-glow)"/>
+          <ellipse cx="800" cy="76" rx="70" ry="34" fill="url(#jr-g-glow)"/>
+          <ellipse cx="1025" cy="76" rx="70" ry="34" fill="url(#jr-g-glow)"/>
+          <ellipse cx="1340" cy="76" rx="70" ry="34" fill="url(#jr-g-glow)"/>
+          <ellipse cx="800" cy="720" rx="520" ry="60" fill="url(#jr-g-glow)" opacity=".35"/>
+        </g>
+
+        <!-- escuridão com recortes dos holofotes -->
+        <rect class="dark" width="1600" height="900" fill="#03040a" mask="url(#jr-m-dark)"/>
+
+        <!-- feixes de luz -->
+        <g class="beam" style="--i:0" data-cx="285" data-bw="200">
+          <polygon points="271,86 299,86 485,700 85,700" fill="url(#jr-g-beam)" filter="url(#jr-f-soft)"/>
+          <ellipse cx="285" cy="700" rx="190" ry="26" fill="url(#jr-g-glow)" opacity=".7"/>
+        </g>
+        <g class="beam" style="--i:1" data-cx="575" data-bw="130">
+          <polygon points="561,86 589,86 705,700 445,700" fill="url(#jr-g-beam)" filter="url(#jr-f-soft)"/>
+          <ellipse cx="575" cy="700" rx="125" ry="24" fill="url(#jr-g-glow)" opacity=".7"/>
+        </g>
+        <g class="beam" style="--i:2" data-cx="800" data-bw="160">
+          <polygon points="786,86 814,86 960,700 640,700" fill="url(#jr-g-beam)" filter="url(#jr-f-soft)"/>
+          <ellipse cx="800" cy="700" rx="152" ry="26" fill="url(#jr-g-glow)" opacity=".7"/>
+        </g>
+        <g class="beam" style="--i:3" data-cx="1025" data-bw="130">
+          <polygon points="1011,86 1039,86 1155,700 895,700" fill="url(#jr-g-beam)" filter="url(#jr-f-soft)"/>
+          <ellipse cx="1025" cy="700" rx="125" ry="24" fill="url(#jr-g-glow)" opacity=".7"/>
+        </g>
+        <g class="beam" style="--i:4" data-cx="1340" data-bw="165">
+          <polygon points="1326,86 1354,86 1505,700 1175,700" fill="url(#jr-g-beam)" filter="url(#jr-f-soft)"/>
+          <ellipse cx="1340" cy="700" rx="157" ry="26" fill="url(#jr-g-glow)" opacity=".7"/>
+        </g>
+
+        <!-- brilho das lentes durante a sequência -->
+        <g fill="url(#jr-g-glow)">
+          <ellipse class="lamp-spot" style="--i:0" cx="285" cy="84" rx="56" ry="28"/>
+          <ellipse class="lamp-spot" style="--i:1" cx="575" cy="84" rx="56" ry="28"/>
+          <ellipse class="lamp-spot" style="--i:2" cx="800" cy="84" rx="56" ry="28"/>
+          <ellipse class="lamp-spot" style="--i:3" cx="1025" cy="84" rx="56" ry="28"/>
+          <ellipse class="lamp-spot" style="--i:4" cx="1340" cy="84" rx="56" ry="28"/>
+        </g>
+
+        <!-- plateia em primeiro plano -->
+        <g style="--body:#06070b;--skin:#06070b;--hair:#06070b">
+          <use href="#jr-person" transform="translate(60 872) scale(1.7)"/>
+          <use href="#jr-person" transform="translate(190 890) scale(1.8)"/>
+          <use href="#jr-person" transform="translate(330 884) scale(1.6)"/>
+          <use href="#jr-person" transform="translate(1285 886) scale(1.7)"/>
+          <use href="#jr-person" transform="translate(1420 872) scale(1.8)"/>
+          <use href="#jr-person" transform="translate(1548 884) scale(1.7)"/>
+        </g>
+        <rect width="1600" height="900" fill="url(#jr-g-vig)"/>
+      </svg>
+      </div>
+      <div class="cap" style="--i:0;--x:17.8%"><b>Os jurados</b><small>Conselho de Sentença</small></div>
+      <div class="cap" style="--i:1;--x:35.9%"><b>O promotor</b><small>Titular da ação penal</small></div>
+      <div class="cap" style="--i:2;--x:50%"><b>O juiz</b><small>Juiz-Presidente</small></div>
+      <div class="cap" style="--i:3;--x:64.1%"><b>A defesa</b><small>Ampla defesa</small></div>
+      <div class="cap" style="--i:4;--x:83.75%"><b>O réu</b><small>Presunção de inocência</small></div>
+      <div class="scrim"></div>
+      <div class="ttlbox">
+        <div class="ttlglow"><div class="ttl" role="heading" aria-level="2">Tribunal do Júri</div></div>
+        <div class="rule"><i></i></div>
+        <p class="sub">Ministério Público do Maranhão · CAOJÚRI</p>
+      </div>
+    </div>
+    <div class="ctls">
+      <button class="ctl" id="intro-snd" type="button" aria-pressed="false">Ativar som</button>
+      <button class="ctl" id="intro-go" type="button">Pular abertura</button>
+    </div>
+  </div>
+</div>
+<script>(function(){var h=location.hash;if(!h||h==='#abertura'){document.documentElement.classList.add('intro-on');document.getElementById('intro').classList.add('show');}})();</script>
+
 <header class="nav" id="nav">
   <div class="nav-in">
     <a class="brand" href="#inicio" aria-label="Voltar ao início">
@@ -814,7 +1125,7 @@ html.js .card.rv.in:hover{transform:translateY(-5px);transition-delay:0s;transit
         <li>Documentos institucionais do CAOJÚRI e Regimento Interno da PGJ</li>
       </ul>
     </details>
-    <footer><span>CAOJÚRI · Ministério Público do Estado do Maranhão</span><a href="#inicio">Voltar ao início</a></footer>
+    <footer><span>CAOJÚRI · Ministério Público do Estado do Maranhão</span><span style="display:flex;gap:18px;flex-wrap:wrap"><a href="#abertura">Rever abertura</a><a href="#inicio">Voltar ao início</a></span></footer>
   </div>
 </section>
 </main>
@@ -1061,5 +1372,167 @@ html.js .card.rv.in:hover{transform:translateY(-5px);transition-delay:0s;transit
   });
 })();
 </script>
+
+<script>
+(function () {
+  var root = document.documentElement, ov = document.getElementById('intro');
+  if (!ov) return;
+  var frame = document.getElementById('intro-frame'), btn = document.getElementById('intro-go'), snd = document.getElementById('intro-snd');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var guard = [].slice.call(document.querySelectorAll('header.nav, main, .player'));
+  var playing = false, active = false, timer, hideT;
+
+  /* partículas de poeira nos feixes */
+  var NS = 'http://www.w3.org/2000/svg', seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+  [].forEach.call(ov.querySelectorAll('.beam'), function (g) {
+    var cx = +g.getAttribute('data-cx'), bw = +g.getAttribute('data-bw');
+    for (var k = 0; k < 9; k++) {
+      var y = 130 + rnd() * 540, half = 14 + (bw - 14) * (y - 86) / 614, x = cx + (rnd() * 2 - 1) * half * 0.9;
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('class', 'mote'); c.setAttribute('cx', x.toFixed(1)); c.setAttribute('cy', y.toFixed(1)); c.setAttribute('r', (0.9 + rnd() * 1.3).toFixed(2));
+      c.style.setProperty('--dx', ((rnd() - 0.5) * 30).toFixed(1) + 'px'); c.style.setProperty('--dy', (-10 - rnd() * 40).toFixed(1) + 'px');
+      c.style.setProperty('--d', (5 + rnd() * 5).toFixed(1) + 's'); c.style.setProperty('--dl', '-' + (rnd() * 6).toFixed(1) + 's');
+      g.appendChild(c);
+    }
+  });
+
+  /* ---------- áudio sintetizado ---------- */
+  var AC = window.AudioContext || window.webkitAudioContext;
+  var ctx = null, bus = null, noiseBuf = null, soundOn = false;
+  if (!AC || reduce) { snd.hidden = true; }
+  function ensureCtx() {
+    if (!AC) return false;
+    if (!ctx) {
+      ctx = new AC();
+      var len = ctx.sampleRate; noiseBuf = ctx.createBuffer(1, len, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0); for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    }
+    if (ctx.state === 'suspended') ctx.resume();
+    return true;
+  }
+  function pulse(g, t, peak, decay) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + 0.003); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.003 + decay); }
+  function tick(t, vol, freq) {
+    var s = ctx.createBufferSource(); s.buffer = noiseBuf;
+    var bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = freq; bp.Q.value = 1.1;
+    var g = ctx.createGain(); pulse(g, t, vol, 0.05);
+    s.connect(bp); bp.connect(g); g.connect(bus); s.start(t, Math.random() * 0.4, 0.08);
+  }
+  function thunk(t, vol) {
+    var o = ctx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.2);
+    var g = ctx.createGain(); pulse(g, t, vol, 0.24); o.connect(g); g.connect(bus); o.start(t); o.stop(t + 0.35);
+  }
+  function buzz(t, dur, vol) {
+    var o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = 120;
+    var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2200;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + 0.008);
+    g.gain.setValueAtTime(vol, t + Math.max(0.01, dur - 0.02)); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    o.connect(lp); lp.connect(g); g.connect(bus); o.start(t); o.stop(t + dur + 0.02);
+  }
+  function hum(t, rise, hold, fall, vol) {
+    var a = ctx.createOscillator(); a.type = 'sawtooth'; a.frequency.value = 60;
+    var b = ctx.createOscillator(); b.type = 'sine'; b.frequency.value = 120;
+    var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 320;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + rise);
+    g.gain.setValueAtTime(vol, t + rise + hold); g.gain.exponentialRampToValueAtTime(0.0001, t + rise + hold + fall);
+    a.connect(lp); b.connect(lp); lp.connect(g); g.connect(bus);
+    var end = t + rise + hold + fall + 0.05; a.start(t); b.start(t); a.stop(end); b.stop(end);
+  }
+  function whine(t, dur) {
+    var o = ctx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(1400, t); o.frequency.exponentialRampToValueAtTime(2600, t + dur);
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.012, t + dur * 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.3);
+    o.connect(g); g.connect(bus); o.start(t); o.stop(t + dur + 0.35);
+  }
+  function boom(t) {
+    var o = ctx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(70, t); o.frequency.exponentialRampToValueAtTime(34, t + 1.6);
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.6, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
+    o.connect(g); g.connect(bus); o.start(t); o.stop(t + 2.5);
+    [880, 1320, 1760].forEach(function (f, i) {
+      var r = ctx.createOscillator(); r.type = 'sine'; r.frequency.value = f;
+      var rg = ctx.createGain();
+      rg.gain.setValueAtTime(0.0001, t + 0.1); rg.gain.exponentialRampToValueAtTime(0.02 / (i + 1), t + 0.14); rg.gain.exponentialRampToValueAtTime(0.0001, t + 2.2);
+      r.connect(rg); rg.connect(bus); r.start(t + 0.1); r.stop(t + 2.3);
+    });
+  }
+  function stopSound(tc) {
+    if (!bus) return;
+    var b = bus; bus = null;
+    try { b.gain.cancelScheduledValues(ctx.currentTime); b.gain.setTargetAtTime(0, ctx.currentTime, tc || 0.04); } catch (e) {}
+    setTimeout(function () { try { b.disconnect(); } catch (e) {} }, 1500);
+  }
+  /* tempos iguais aos da animação CSS: --t0 .8s, --step 1.9s, --lights 10.4s */
+  function playSound() {
+    if (!ensureCtx()) return;
+    stopSound();
+    bus = ctx.createGain(); bus.gain.value = 0.85; bus.connect(ctx.destination);
+    var t = ctx.currentTime + 0.05, T0 = 0.8, STEP = 1.9, L = 10.4;
+    for (var i = 0; i < 5; i++) {
+      var s = t + T0 + i * STEP;
+      thunk(s, 0.5); tick(s, 0.5, 2600); tick(s + 0.012, 0.25, 900); buzz(s + 0.02, 0.16, 0.025); whine(s + 0.1, 0.5); hum(s, 0.5, 1.2, 0.7, 0.05);
+    }
+    var f = t + L;
+    tick(f + 0.144, 0.55, 3000); thunk(f + 0.144, 0.3); buzz(f + 0.144, 0.12, 0.05);
+    tick(f + 0.264, 0.35, 2200);
+    tick(f + 0.432, 0.6, 3200); thunk(f + 0.432, 0.35); buzz(f + 0.432, 0.14, 0.05);
+    tick(f + 0.576, 0.45, 2800); buzz(f + 0.576, 0.34, 0.045);
+    tick(f + 0.72, 0.2, 3400); tick(f + 0.9, 0.16, 3000); tick(f + 1.12, 0.12, 2600);
+    hum(f + 0.5, 1.4, 3.8, 2.6, 0.06);
+    boom(f + 1.4);
+  }
+  function setSndLabel() { snd.textContent = soundOn ? 'Som ligado' : 'Ativar som'; snd.setAttribute('aria-pressed', soundOn ? 'true' : 'false'); }
+
+  /* ---------- controle da abertura ---------- */
+  function setLabel() { btn.textContent = playing ? 'Pular abertura' : 'Entrar na apresentação'; btn.classList.toggle('go', !playing); }
+  function finish() { playing = false; setLabel(); }
+  function begin() {
+    frame.classList.remove('play'); void frame.offsetWidth;
+    clearTimeout(timer);
+    if (reduce) { finish(); return; }
+    frame.classList.add('play'); playing = true; setLabel();
+    timer = setTimeout(finish, 14500);
+    if (soundOn) playSound();
+  }
+  function show() {
+    active = true; clearTimeout(hideT);
+    ov.classList.add('show'); ov.classList.remove('out'); root.classList.add('intro-on');
+    guard.forEach(function (e) { e.setAttribute('inert', ''); });
+    try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
+    begin();
+    try { btn.focus({ preventScroll: true }); } catch (e) {}
+  }
+  function dismiss() {
+    if (!active) return;
+    active = false; clearTimeout(timer); stopSound(0.25);
+    root.classList.remove('intro-on');
+    guard.forEach(function (e) { e.removeAttribute('inert'); });
+    ov.classList.add('out');
+    if (location.hash === '#abertura') location.hash = 'inicio';
+    hideT = setTimeout(function () { ov.classList.remove('show', 'out'); frame.classList.remove('play'); }, 1000);
+  }
+
+  btn.addEventListener('click', dismiss);
+  snd.addEventListener('click', function () {
+    if (soundOn) { soundOn = false; stopSound(); setSndLabel(); return; }
+    if (!ensureCtx()) return;
+    soundOn = true; setSndLabel(); begin();
+  });
+  addEventListener('keydown', function (e) {
+    if (!active) return;
+    if (e.key === 'Escape') { e.preventDefault(); dismiss(); }
+    else if ((e.key === 'Enter' || e.key === ' ') && !(e.target && e.target.closest && e.target.closest('button'))) { e.preventDefault(); dismiss(); }
+  }, true);
+  addEventListener('hashchange', function () { if (location.hash === '#abertura' && !active) show(); });
+
+  if (ov.classList.contains('show')) show();
+})();
+</script>
+
 
 </body></html>
