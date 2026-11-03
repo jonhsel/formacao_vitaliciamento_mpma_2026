@@ -336,6 +336,8 @@ footer{margin-top:40px;padding-block:28px 120px;border-top:1px solid var(--line)
 .pl-dot:hover{transform:scale(1.25)}
 .pl-dot.done{background:var(--red);border-color:var(--red)}
 .pl-dot.cur{box-shadow:0 0 0 4px rgba(255,115,120,.45)}
+.pl-dot.sub{width:13px;height:13px;margin:-6.5px 0 0 -6.5px;font-size:0;border-width:2px}
+.pl-dot.sub:hover{transform:scale(1.5)}
 @media (max-width:700px){.pl-info{display:none}.pl-btn{width:36px;height:36px}.pl-track{margin-inline:6px}}
 
 /* ---------- Júri Itinerante ---------- */
@@ -1280,7 +1282,7 @@ html.intro-on,html.intro-on body{overflow:hidden}
 
   /* faixas cinéticas entre as seções */
   var frentes=['tecnico','operacional','dados','ferramentas','capacitacao','articulacao'];
-  var nomes={inicio:'Capa',contato:'Contato'};
+  var nomes={inicio:'Capa',contato:'Contato',quem:'Quem somos',itinerante:'Júri Itinerante',cidadania:'Proteção e cidadania'};
   frentes.forEach(function(id,k){
     var s=document.getElementById(id); if(!s) return;
     var a=nav.querySelector('[data-s="'+id+'"]');
@@ -1303,26 +1305,33 @@ html.intro-on,html.intro-on body{overflow:hidden}
   addEventListener('scroll',function(){ if(!kt){kt=true;requestAnimationFrame(par)} },{passive:true}); par();
 
   /* player: progresso com marcos, anterior, próximo e reprodução automática */
-  var stops=['inicio'].concat(frentes,['contato']);
+  var stops=['inicio','quem','tecnico','operacional','itinerante','dados','ferramentas','capacitacao','cidadania','articulacao','contato'];
+  var subIds=['quem','itinerante','cidadania'];
+  var fr={tecnico:1,operacional:2,itinerante:2,dados:3,ferramentas:4,capacitacao:5,cidadania:5,articulacao:6,contato:7};
   var track=document.getElementById('pl-track'), plT=document.getElementById('pl-t'), plN=document.getElementById('pl-n');
   var bPlay=document.getElementById('pl-play'), bPrev=document.getElementById('pl-prev'), bNext=document.getElementById('pl-next');
-  var dots=[], maxS=1, pt=false, playing=false, timer=null;
+  var dots=[], sdots=[], maxS=1, pt=false, playing=false, timer=null;
   var ICON_PLAY='<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
   var ICON_PAUSE='<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
   function topOf(id){ return document.getElementById(id).getBoundingClientRect().top+scrollY; }
   function offs(){ return nav.offsetHeight+4; }
+  function mkDot(id,cls,txt,label){
+    var b=document.createElement('button'); b.type='button'; b.className='pl-dot'+cls; b.textContent=txt;
+    b.setAttribute('aria-label','Ir para '+label); b.title=label;
+    b.addEventListener('pointerdown',function(e){e.stopPropagation();pause()});
+    b.addEventListener('click',function(){goTo(id)});
+    track.appendChild(b); return b;
+  }
+  function xOf(id){ return Math.min(1,Math.max(0,(topOf(id)-offs())/maxS)); }
   function layout(){
     maxS=Math.max(1,document.documentElement.scrollHeight-innerHeight);
     frentes.forEach(function(id,k){
-      var x=Math.min(1,Math.max(0,(topOf(id)-offs())/maxS));
-      if(!dots[k]){
-        var b=document.createElement('button'); b.type='button'; b.className='pl-dot'; b.textContent=k+1;
-        b.setAttribute('aria-label','Ir para '+nomes[id]); b.title=nomes[id];
-        b.addEventListener('pointerdown',function(e){e.stopPropagation();pause()});
-        b.addEventListener('click',function(){goTo(id)});
-        track.appendChild(b); dots[k]=b;
-      }
-      dots[k].style.setProperty('--x',x);
+      if(!dots[k]) dots[k]=mkDot(id,'',k+1,nomes[id]);
+      dots[k].style.setProperty('--x',xOf(id));
+    });
+    subIds.forEach(function(id,j){
+      if(!sdots[j]) sdots[j]=mkDot(id,' sub','',nomes[id]);
+      sdots[j].style.setProperty('--x',xOf(id));
     });
   }
   function curStop(){
@@ -1335,15 +1344,50 @@ html.intro-on,html.intro-on body{overflow:hidden}
   function upd(){
     pt=false;
     var p=Math.min(1,Math.max(0,scrollY/maxS)); track.style.setProperty('--p',p);
-    var c=curStop(); plT.textContent=nomes[stops[c]];
-    plN.textContent=(c>=1&&c<=6)?('Frente '+c+' de 6'):(c===0?'Início':'Encerramento');
-    dots.forEach(function(d,k){ d.classList.toggle('done',k+1<=c&&c<=6||c>6); d.classList.toggle('cur',k+1===c); });
+    var c=curStop(), id=stops[c], f=fr[id]||0;
+    plT.textContent=nomes[id];
+    plN.textContent=(f>=1&&f<=6)?('Frente '+f+' de 6'):(f===7?'Encerramento':'Início');
+    dots.forEach(function(d,k){ d.classList.toggle('done',k+1<=f); d.classList.toggle('cur',frentes[k]===id); });
+    sdots.forEach(function(d,j){ var si=stops.indexOf(subIds[j]); d.classList.toggle('done',si<=c); d.classList.toggle('cur',si===c); });
   }
   function reqP(){ if(!pt){pt=true;requestAnimationFrame(upd)} }
   addEventListener('scroll',reqP,{passive:true}); addEventListener('resize',function(){layout();reqP()}); addEventListener('load',function(){layout();upd()});
   layout(); upd(); setTimeout(function(){layout();upd()},600);
-  bNext.addEventListener('click',function(){pause();var c=curStop();goTo(stops[Math.min(stops.length-1,c+1)])});
-  bPrev.addEventListener('click',function(){pause();var c=curStop(),t=topOf(stops[c])-offs();goTo(stops[(scrollY-t>80)?c:Math.max(0,c-1)])});
+  bNext.addEventListener('click',function(){pause();next()});
+  function prev(){ var c=curStop(),t=topOf(stops[c])-offs(); goTo(stops[(scrollY-t>80)?c:Math.max(0,c-1)]); }
+  /* fim do conteúdo do ponto atual, sem o respiro entre seções */
+  function endOf(c){
+    var nx=document.getElementById(stops[c+1]), cur=document.getElementById(stops[c]);
+    var end=topOf(stops[c+1]), pv=nx.previousElementSibling;
+    if(pv&&pv.classList.contains('kin-strip')) end-=pv.offsetHeight;
+    var s1=cur.closest('section')||cur, s2=nx.closest('section')||nx;
+    if(s1!==s2) end-=parseFloat(getComputedStyle(s1).paddingBottom)||0;
+    else end-=parseFloat(getComputedStyle(nx).marginTop)||0;
+    return end;
+  }
+  /* avança um ponto; se o ponto atual for mais alto que a tela, desce por partes antes */
+  function next(){
+    var c=curStop(); if(c>=stops.length-1) return;
+    var vis=innerHeight-document.getElementById('player').offsetHeight, remain=endOf(c)-(scrollY+vis);
+    if(remain>40) window.scrollBy({top:Math.round(Math.min((vis-offs())*.85,remain+40)),behavior:reduce?'auto':'smooth'});
+    else goTo(stops[c+1]);
+  }
+  bPrev.addEventListener('click',function(){pause();prev()});
+  bNext.title='Próximo ponto (seta direita ou PageDown)'; bPrev.title='Ponto anterior (seta esquerda ou PageUp)';
+  /* passador de slides: PageDown/PageUp, setas esquerda/direita e espaço */
+  addEventListener('keydown',function(e){
+    if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||root.classList.contains('intro-on')) return;
+    var t=e.target, tg=(t&&t.tagName)||'';
+    if(/^(INPUT|TEXTAREA|SELECT)$/.test(tg)||(t&&t.isContentEditable)) return;
+    var k=e.key, d=0;
+    if(k==='PageDown'||k==='ArrowRight') d=1;
+    else if(k==='PageUp'||k==='ArrowLeft') d=-1;
+    else if(k===' '&&!(t&&t.closest&&t.closest('button,a,summary,[role=tab]'))) d=e.shiftKey?-1:1;
+    else if(k==='Home'){ e.preventDefault(); pause(); goTo(stops[0]); return; }
+    else if(k==='End'){ e.preventDefault(); pause(); goTo(stops[stops.length-1]); return; }
+    if(!d) return;
+    e.preventDefault(); pause(); if(d>0) next(); else prev();
+  });
   function setPlay(on){
     playing=on; bPlay.innerHTML=on?ICON_PAUSE:ICON_PLAY;
     bPlay.setAttribute('aria-label',on?'Pausar a apresentação':'Reproduzir a apresentação automaticamente');
@@ -1525,7 +1569,7 @@ html.intro-on,html.intro-on body{overflow:hidden}
   });
   addEventListener('keydown', function (e) {
     if (!active) return;
-    if (e.key === 'Escape') { e.preventDefault(); dismiss(); }
+    if (e.key === 'Escape' || e.key === 'PageDown' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); dismiss(); }
     else if ((e.key === 'Enter' || e.key === ' ') && !(e.target && e.target.closest && e.target.closest('button'))) { e.preventDefault(); dismiss(); }
   }, true);
   addEventListener('hashchange', function () { if (location.hash === '#abertura' && !active) show(); });
